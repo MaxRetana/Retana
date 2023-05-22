@@ -1,0 +1,2 @@
+class Anticipo < ApplicationRecord
+end
