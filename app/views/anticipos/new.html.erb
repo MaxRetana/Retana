@@ -1,12 +1,12 @@
 <%= form_with model: @anticipo, url: anticipos_path, class: "form-horizontal" do |f| %>
   <div class="form-group">
-    <%= f.label :arquitecto %>
-    <%= f.text_field :arquitecto, class: "form-control" %>
+    <%= f.label :Arquitecto, class: "d-block" %>
+    <%= f.select :arquitecto_id, options_for_select(@arquitectos.map { |arquitecto| [arquitecto.nombre, arquitecto.id] }), {}, class: "form-control" %>
   </div>
 
   <div class="form-group">
-    <%= f.label :obra %>
-    <%= f.text_field :obra, class: "form-control" %>
+    <%= f.label :Obra, class: "d-block" %>
+    <%= f.select :obra_id, options_for_select(@obras.map { |obra| [obra.nombre, obra.id] }), {}, class: "form-control" %>
   </div>
 
   <div class="form-group">

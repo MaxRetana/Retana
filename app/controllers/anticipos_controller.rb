@@ -1,6 +1,8 @@
 class AnticiposController < ApplicationController
   def new
     @anticipo = Anticipo.new
+    @arquitectos = Arquitecto.all
+    @obras = Obra.all
   end
 
   def create
@@ -18,14 +20,25 @@ class AnticiposController < ApplicationController
     respond_to do |format|
       format.pdf do
         pdf = generate_pdf(@anticipo)
-        send_data pdf.render, filename: 'anticipo.pdf', type: 'application/pdf', disposition: 'inline'
+        send_data pdf.render, filename: "#{sanitize_filename(@anticipo.obra.nombre)}", type: 'application/pdf', disposition: 'inline'
       end
     end
   end
+  
+  private
+  
+  def sanitize_filename(filename)
+    # Remover caracteres no permitidos en nombres de archivo
+    sanitized_filename = filename.gsub(/[^0-9A-Za-z.\-]/, '_')
+    # Asegurarse de que el nombre de archivo tenga una extensión .pdf
+    sanitized_filename += '.pdf' unless sanitized_filename.ends_with?('.pdf')
+    sanitized_filename
+  end
+  
 
   private
     def anticipo_params
-      params.require(:anticipo).permit(:arquitecto, :obra, :fecha, :cantidad, :concepto)
+      params.require(:anticipo).permit(:arquitecto_id, :obra_id, :fecha, :cantidad, :concepto)
     end
 
     def generate_pdf(anticipo)
@@ -73,7 +86,7 @@ class AnticiposController < ApplicationController
         move_down 50
     
         # Descripción del anticipo
-        persona = anticipo.arquitecto.upcase
+        persona = anticipo.arquitecto.nombre.upcase
         formatted_text [
           { text: 'R E C I B I : DEL ', styles: [:normal] },
           { text: "#{persona}.-", styles: [:bold] }
@@ -172,7 +185,7 @@ class AnticiposController < ApplicationController
         move_down 50
         
         #Concepto
-        text "POR EL CONCEPTO #{anticipo.concepto.upcase} REALIZADOS DE LA OBRA #{anticipo.obra.upcase}.", align: :left
+        text "POR EL CONCEPTO #{anticipo.concepto.upcase} REALIZADOS DE LA OBRA #{anticipo.obra.nombre.upcase}.", align: :left
         move_down 50
     
         # Firma y nombre del receptor
