@@ -1,2 +1,33 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+<button class="btn btn-outline-dark">AMx</button>
+
+<%= link_to "Crear anticipo", new_anticipo_path %>
+
+<div class="table-responsive">
+  <table class="table table-striped table-hover mx-auto w-50 shadow border border-dark border-2 bg-light text-dark">
+    <thead class="bg-primary text-white">
+      <tr>
+        <th>Arquitecto</th>
+        <th>Obra</th>
+        <th>Fecha</th>
+        <th>Cantidad</th>
+        <th>Concepto</th>
+        <th>Acciones</th> <!-- Agregamos una columna para las acciones -->
+      </tr>
+    </thead>
+    <tbody>
+      <% @anticipos.each do |anticipo| %>
+        <tr>
+          <td><%= anticipo.arquitecto %></td>
+          <td><%= anticipo.obra %></td>
+          <td><%= anticipo.fecha %></td>
+          <td><%= anticipo.cantidad %></td>
+          <td><%= anticipo.concepto %></td>
+          <td>
+            <%= link_to 'Generar PDF', generar_pdf_path(anticipo_id: anticipo.id, format: :pdf), class: 'btn btn-primary' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+

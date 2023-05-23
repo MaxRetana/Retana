@@ -1,2 +1,30 @@
-<h1>Anticipos#new</h1>
-<p>Find me in app/views/anticipos/new.html.erb</p>
+<%= form_with model: @anticipo, url: anticipos_path, class: "form-horizontal" do |f| %>
+  <div class="form-group">
+    <%= f.label :arquitecto %>
+    <%= f.text_field :arquitecto, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :obra %>
+    <%= f.text_field :obra, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :fecha %>
+    <%= f.text_field :fecha, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :cantidad %>
+    <%= f.text_field :cantidad, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :concepto %>
+    <%= f.text_field :concepto, class: "form-control" %>
+  </div>
+
+  <div class="form-group text-center">
+    <%= f.submit "Guardar", class: "btn btn-primary" %>
+  </div>
+<% end %>

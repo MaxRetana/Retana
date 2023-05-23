@@ -45,6 +45,10 @@ gem "bootsnap", require: false
 # Use Sass to process CSS
 # gem "sassc-rails"
 
+# Bootstap set up
+gem 'bootstrap', '~> 5.1'
+gem 'bootstrap_form', '~> 5.1'
+
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
@@ -70,3 +74,10 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 end
+
+# PDF generator
+gem "prawn"
+gem 'prawn-rails'
+
+gem 'numbers_and_words'
+gem 'numerizer'
