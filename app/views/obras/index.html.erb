@@ -1,0 +1,19 @@
+<%= link_to "Obra", new_obra_path %>
+<div class="table-responsive">
+  <table class="table table-striped table-hover mx-auto w-50 shadow border border-dark border-2 bg-light text-dark">
+    <thead class="bg-primary text-white">
+      <tr>
+        <th>Nombre</th>
+        <th>Arquitecto</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @obras.each do |obra| %>
+        <tr>
+          <td><%= obra.nombre %></td>
+          <td><%= obra.arquitecto.nombre %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

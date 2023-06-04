@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   # root "articles#index"
 
   get '/generar_pdf', to: 'anticipos#generar_pdf', as: 'generar_pdf', format: :pdf
+  get '/obras_por_arquitecto', to: 'obras#obras_por_arquitecto'
+
 
 
   root 'home#index'

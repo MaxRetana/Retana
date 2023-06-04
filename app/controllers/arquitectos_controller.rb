@@ -1,4 +1,9 @@
 class ArquitectosController < ApplicationController
+
+  def index
+    @arquitectos = Arquitecto.all
+  end
+
   def new
     @arquitecto = Arquitecto.new
   end

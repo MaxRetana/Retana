@@ -73,9 +73,8 @@ class AnticiposController < ApplicationController
           11 => 'noviembre',
           12 => 'diciembre'
         }
-
         fecha_actual = Date.today.strftime(meses_espanol[Date.today.month].upcase + ' %d ' + ' DEL AÑO %Y')
-        text "COLIMA, COL; #{fecha_actual}", align: :right
+        text "COLIMA, COL; #{anticipo.fecha.upcase}", align: :right
         move_down 50
     
         # Monto del anticipo
@@ -152,7 +151,9 @@ class AnticiposController < ApplicationController
             9 => 'nueve mil'
           }
         
-          if cantidad < 20
+          if cantidad == 15000
+            "quince mil"
+          elsif cantidad < 20
             unidades[cantidad]
           elsif cantidad < 100
             if cantidad % 10 == 0
@@ -172,8 +173,28 @@ class AnticiposController < ApplicationController
             else
               "#{miles[cantidad / 1000]} #{cantidad_en_palabras(cantidad % 1000)}"
             end
+          elsif cantidad < 20000
+            if cantidad % 10000 == 0
+              "diez mil"
+            else
+              "diez mil #{cantidad_en_palabras(cantidad % 10000)}"
+            end
+          elsif cantidad < 100000
+            if cantidad % 10000 == 0
+              "#{decenas[cantidad / 10000]} #{miles[1]}"
+            else
+              "#{decenas[cantidad / 10000]} #{miles[1]} #{cantidad_en_palabras(cantidad % 10000)}"
+            end
+          elsif cantidad < 1000000
+            if cantidad % 100000 == 0
+              "#{centenas[cantidad / 100000]} mil"
+            else
+              "#{centenas[cantidad / 100000]} mil #{cantidad_en_palabras(cantidad % 100000)}"
+            end
           end
         end
+        
+        
 
         text 'LA CANTIDAD DE : -                              -                              -                              -                              -', align: :left
         move_down 10
@@ -196,6 +217,4 @@ class AnticiposController < ApplicationController
         text 'C. JOSE N. RETANA RODRIGUEZ', align: :center
       end
     end
-    
-    
 end

@@ -1,0 +1,17 @@
+<%= link_to "Arquitecto", new_arquitecto_path %>
+<div class="table-responsive">
+  <table class="table table-striped table-hover mx-auto w-50 shadow border border-dark border-2 bg-light text-dark">
+    <thead class="bg-primary text-white">
+      <tr>
+        <th>Nombre</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @arquitectos.each do |arquitecto| %>
+        <tr>
+          <td><%= arquitecto.nombre %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

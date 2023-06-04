@@ -81,3 +81,5 @@ gem 'prawn-rails'
 
 gem 'numbers_and_words'
 gem 'numerizer'
+
+gem 'jquery-rails'
