@@ -1,18 +1,18 @@
-<%= form_with model: @anticipo, url: anticipos_path, class: "form-horizontal", data: { remote: true } do |f| %>
+<%= form_for(@anticipo, html: {class: "form-horizontal"}) do |f| %>
   <div class="form-group">
     <%= f.label :Arquitecto, class: "d-block" %>
-    <%= f.select :arquitecto_id, options_for_select(@arquitectos.map { |arquitecto| [arquitecto.nombre, arquitecto.id] }), {}, class: "form-control", id: "anticipo_arquitecto_id" %>
+    <%= f.select :arquitecto_id, options_for_select(@arquitectos.map { |arquitecto| [arquitecto.nombre, arquitecto.id] }, @anticipo.arquitecto_id), {}, class: "form-control", id: "anticipo_arquitecto_id" %>
   </div>
 
   <div class="form-group">
     <%= f.label :Obra, class: "d-block" %>
-    <%= f.select :obra_id, options_for_select(@obras.map { |obra| [obra.nombre, obra.id] }), {}, class: "form-control", id: "anticipo_obra_id" %>
+    <%= f.select :obra_id, options_for_select(@obras.map { |obra| [obra.nombre, obra.id] }, @anticipo.obra_id), {}, class: "form-control", id: "anticipo_obra_id" %>
   </div>
 
 
   <div class="form-group">
     <%= f.label :fecha %>
-    <%= f.date_field :fecha, class: "form-control" %>
+    <%= f.text_field :fecha, class: "form-control" %>
   </div>
 
   <div class="form-group">
@@ -52,7 +52,25 @@
         }
       });
     });
+
+    // Cargar las obras iniciales al cargar la página
+    var initialArquitectoId = arquitectoSelect.val();
+    loadObras(initialArquitectoId);
   });
+
+  function loadObras(arquitectoId) {
+    $.ajax({
+      url: '/obras_por_arquitecto',
+      type: 'GET',
+      data: { arquitecto_id: arquitectoId },
+      dataType: 'json',
+      success: function(response) {
+        obraSelect.empty();
+
+        $.each(response.obras, function(index, obra) {
+          obraSelect.append($('<option></option>').attr('value', obra.id).text(obra.nombre));
+        });
+      }
+    });
+  }
 </script>
-
-

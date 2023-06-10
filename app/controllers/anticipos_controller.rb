@@ -1,4 +1,15 @@
 class AnticiposController < ApplicationController
+
+  def index
+    @anticipos = Anticipo.order(created_at: :desc)
+  end  
+
+  def eliminar
+    anticipo = Anticipo.find(params[:id])
+    anticipo.destroy
+    redirect_to anticipos_path, notice: 'El registro ha sido eliminado exitosamente.'
+  end
+
   def new
     @anticipo = Anticipo.new
     @arquitectos = Arquitecto.all
@@ -11,6 +22,31 @@ class AnticiposController < ApplicationController
       redirect_to home_index_path
     else
       render 'new'
+    end
+  end
+
+  def edit
+    @anticipo = Anticipo.find(params[:id])
+    @arquitectos = Arquitecto.all
+    @obras = Obra.all
+  end
+  
+  def update
+    @anticipo = Anticipo.find(params[:id])
+  
+    if @anticipo.update(anticipo_params)
+      redirect_to home_index_path
+    else
+      render 'edit'
+    end
+  end
+
+  def obras_por_arquitecto
+    arquitecto = Arquitecto.find(params[:arquitecto_id])
+    @obras = arquitecto.obras
+
+    respond_to do |format|
+      format.json { render json: { obras: @obras } }
     end
   end
 
@@ -74,7 +110,9 @@ class AnticiposController < ApplicationController
           12 => 'diciembre'
         }
         fecha_actual = Date.today.strftime(meses_espanol[Date.today.month].upcase + ' %d ' + ' DEL AÑO %Y')
-        text "COLIMA, COL; #{anticipo.fecha.upcase}", align: :right
+        fecha = Date.parse(anticipo.fecha)
+        fecha_formateada = fecha.strftime('%d DE ' + meses_espanol[fecha.month].upcase + ' DEL %Y')
+        text "COLIMA, COL; #{fecha_formateada.upcase}", align: :right
         move_down 50
     
         # Monto del anticipo
